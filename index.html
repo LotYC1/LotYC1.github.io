@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人网站</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #0366d6;
+        }
+        。projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        。project-card {
+            border: 1px solid #e1e4e8;
+            padding: 15px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>欢迎来到我的网站</h1>
+        <p>这是一个使用GitHub Pages部署的静态网站</p>
+        <nav>
+            <a href="#about">关于我</a>
+            <a href="#projects">项目</a>
+            <a href="#contact">联系</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="about">
+            <h2>关于我</h2>
+            <p>你好！我是一名开发者，这是我的个人网站。</p>
+        </section>
+
+        <section id="projects">
+            <h2>我的项目</h2>
+            <div class="projects">
+                <div class="project-card">
+                    <h3>项目一</h3>
+                    <p>这是我的第一个项目描述。</p>
+                </div>
+                <div class="project-card">
+                    <h3>项目二</h3>
+                    <p>这是我的第二个项目描述。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>联系我</h2>
+            <p>邮箱: example@email.com</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 我的网站. 所有权利保留.</p>
+    </footer>
+</body>
+</html>
