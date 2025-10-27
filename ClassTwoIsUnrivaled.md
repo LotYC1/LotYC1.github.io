@@ -15,6 +15,6 @@ categories: [jekyll, calss_two]
     - [学校](#学校)
 
 ## 硬汉
-![牢贞硬汉1](/images/tough/wqz_m1.jpg'牢贞硬汉1')
-![牢贞硬汉2](/images/tough/wqz_m2.jpg'牢贞硬汉2')
-![牢江硬汉](/images/tough/jxm_m.jpg'牢江硬汉')
+![牢贞硬汉1](/images/tough/wqz_m1.jpg '牢贞硬汉1')
+![牢贞硬汉2](/images/tough/wqz_m2.jpg '牢贞硬汉2')
+![牢江硬汉](/images/tough/jxm_m.jpg '牢江硬汉')
