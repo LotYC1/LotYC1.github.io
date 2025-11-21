@@ -17,7 +17,8 @@
 [点此跳转页面](/ClassTwoIsUnrivaled)
 
 ### 项目二
-
+缝纫机工作原理：
+[点此跳转画面](/SewingMachine)
 
 ## 联系我
  我的邮箱： [3606989242@qq.com](3606989242@qq.com)
