@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>缝纫机机械全书：原理、交互与诊断</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&family=ZCOOL+QingKe+HuangYou&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-pink: #ff0055;
+            --neon-yellow: #ffd700;
+            --neon-purple: #bc13fe;
+            
+            --bg-core: #050510;
+            --bg-card: rgba(15, 20, 35, 0.85);
+            --border-glass: rgba(0, 243, 255, 0.15);
+            
+            --font-display: 'ZCOOL QingKe HuangYou', cursive;
+            --font-tech: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', 'Noto Sans SC', sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-core);
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(188, 19, 254, 0.05), transparent 60%),
+                linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, .02) 25%, rgba(255, 255, 255, .02) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .02) 75%, rgba(255, 255, 255, .02) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, .02) 25%, rgba(255, 255, 255, .02) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .02) 75%, rgba(255, 255, 255, .02) 76%, transparent 77%, transparent);
+            background-size: 100% 100%, 60px 60px, 60px 60px;
+            color: #e0e0e0;
+            font-family: var(--font-body);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 100px;
+        }
+
+        /* ================= 头部设计 ================= */
+        header {
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 5rem;
+            margin: 0;
+            color: #fff;
+            text-shadow: 0 0 25px rgba(0, 243, 255, 0.4);
+            letter-spacing: 4px;
+            background: linear-gradient(180deg, #fff, #aaddff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-family: var(--font-tech);
+            color: var(--neon-cyan);
+            font-size: 1.1rem;
+            letter-spacing: 8px;
+            margin-top: 15px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        /* ================= 分区标题 ================= */
+        .section-title {
+            font-family: var(--font-tech);
+            font-size: 2rem;
+            color: #fff;
+            border-left: 6px solid var(--neon-pink);
+            padding-left: 25px;
+            margin: 100px 0 50px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .section-title .cn-title {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            color: var(--neon-pink);
+            margin-top: 5px;
+        }
+
+        /* ================= 卡片通用样式 ================= */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0, 243, 255, 0.4);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--neon-cyan);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            font-family: var(--font-tech);
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        p {
+            color: #bbb;
+            text-align: justify;
+            font-size: 1.05rem;
+        }
+
+        .highlight { color: var(--neon-yellow); font-weight: bold; }
+
+        /* ================= 交互实验室控件 ================= */
+        .lab-panel {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px dashed var(--neon-purple);
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .lab-header {
+            font-family: var(--font-tech);
+            color: var(--neon-yellow);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .control-group {
+            margin: 20px 0;
+        }
+
+        label {
+            display: block;
+            font-family: var(--font-tech);
+            font-size: 0.8rem;
+            color: var(--neon-cyan);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--neon-pink);
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--neon-pink);
+            margin-top: -7px;
+        }
+
+        .readout-screen {
+            background: #080808;
+            border: 1px solid #333;
+            color: var(--neon-green);
+            font-family: 'Courier New', monospace;
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-top: 15px;
+        }
+
+        /* ================= SVG 区域 ================= */
+        .svg-container {
+            width: 100%;
+            height: 320px;
+            background: radial-gradient(circle at 50% 50%, #1a1f35 0%, #050510 100%);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .svg-container svg {
+            width: 90%;
+            height: 90%;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+        }
+
+        /* ================= 故障矩阵表格 ================= */
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+        .matrix-table th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid var(--neon-pink);
+            color: var(--neon-pink);
+            font-family: var(--font-tech);
+        }
+        .matrix-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: #ccc;
+        }
+        .matrix-table tr:hover td {
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* 响应式 */
+        @media (max-width: 800px) {
+            h1 { font-size: 3rem; }
+            .grid-2 { grid-template-columns: 1fr; gap: 30px; }
+            .section-title .cn-title { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>缝纫机全解</h1>
+            <div class="subtitle">MECHANICAL ENCYCLOPEDIA & INTERACTIVE LABS</div>
+        </header>
+
+        <!-- 第一部分：核心原理详解 (Static Text + Rich Content) -->
+        <div class="section-title">
+            PHASE 01: THEORETICAL MECHANICS
+            <span class="cn-title">锁式线迹的物理本质</span>
+        </div>
+
+        <div class="card">
+            <div class="grid-2">
+                <div>
+                    <h2>A. 穿刺与线圈 (The Loop)</h2>
+                    <p>缝纫机工作的核心矛盾在于：<strong>如何让上面的线穿过下面的布，却不把线头带过去？</strong></p>
+                    <p>答案利用了物理学中的<span class="highlight">摩擦滞后</span>。当带有沟槽的机针刺入布料并开始回退时，面线由于与布料的摩擦力，无法立刻随针回升。它被迫在针眼旁鼓起，形成一个几毫米大的<strong>线圈</strong>。</p>
+                    <p>这几毫秒的“线圈存在时间”，是整个机械结构介入的唯一窗口期。</p>
+                </div>
+                <div class="svg-container">
+                     <!-- 静态原理示意：针杆与线圈 -->
+                     <svg viewBox="0 0 200 200">
+                        <defs>
+                            <linearGradient id="needleGrad" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0%" stop-color="#888"/>
+                                <stop offset="100%" stop-color="#eee"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- 布料 -->
+                        <rect x="30" y="100" width="140" height="8" fill="#333" stroke="#666"/>
+                        <!-- 针 -->
+                        <polygon points="95,20 105,20 100,130" fill="url(#needleGrad)"/>
+                        <!-- 线 -->
+                        <path d="M100,20 L100,125 C100,125 130,115 130,135 C130,155 100,145 100,145" 
+                              fill="none" stroke="var(--neon-pink)" stroke-width="3"/>
+                        <text x="135" y="135" fill="var(--neon-pink)" font-size="10" font-family="var(--font-tech)">THE LOOP</text>
+                     </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="grid-2">
+                <div class="svg-container">
+                    <!-- 静态原理示意：旋梭 -->
+                    <svg viewBox="0 0 200 200">
+                        <circle cx="100" cy="100" r="60" fill="none" stroke="#444" stroke-width="2" stroke-dasharray="5,3"/>
+                        <path d="M100,20 A80,80 0 0,1 20,100" fill="none" stroke="var(--neon-cyan)" stroke-width="6" marker-end="url(#arrow)"/>
+                        <polygon points="100,20 120,0 80,0" fill="var(--neon-cyan)"/>
+                        <circle cx="100" cy="100" r="30" fill="#222" stroke="#666" stroke-width="2"/>
+                        <text x="85" y="105" fill="#888" font-size="10">BOBBIN</text>
+                    </svg>
+                </div>
+                <div>
+                    <h2>B. 旋梭的时间相位 (Timing)</h2>
+                    <p>旋梭（Rotary Hook）是缝纫机的心脏。它的转速通常是针杆频率的2倍。</p>
+                    <p>它必须在针杆回升约2.5毫米的瞬间，精准地用尖端勾住线圈。
+                    <br>• <strong>早了</strong>：线圈还没形成，勾空。
+                    <br>• <strong>晚了</strong>：线圈已经因为针的上升而收紧，勾空。</p>
+                    <p>勾住后，旋梭旋转180度以上，强行将面线圈拉大，并像跳绳一样套过静止不动的<strong>梭芯盒（Bobbin Case）</strong>。这就是面线包住底线的秘密。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第二部分：交互实验室 (The Lab) -->
+        <div class="section-title">
+            PHASE 02: INTERACTIVE LABS
+            <span class="cn-title">机械同步与张力模拟</span>
+        </div>
+
+        <div class="card">
+            <h3><span style="color:var(--neon-yellow)">LAB A //</span> 同步控制台 (Synchro-Deck)</h3>
+            <p>这是一个手动连接的物理模拟器。通过拖动滑块，你可以像操作机修工的“手轮”一样，逐帧检视针与梭的配合。</p>
+            
+            <div class="lab-panel">
+                <div class="lab-header">
+                    <span>MANUAL CYCLE CONTROL</span>
+                    <span id="cycle-val" style="color:var(--neon-yellow)">0°</span>
+                </div>
+                
+                <!-- 交互SVG -->
+                <div class="svg-container" style="height: 280px;">
+                    <svg viewBox="0 0 400 200" id="synchro-svg">
+                        <!-- 背景格 -->
+                        <path d="M0,100 L400,100" stroke="#333" stroke-width="1"/>
+                        <rect x="100" y="95" width="200" height="10" fill="#111" stroke="#444"/> <!-- 布料 -->
+
+                        <!-- 针系统 -->
+                        <g id="needle-sys" transform="translate(200, 0)">
+                            <rect x="-3" y="-100" width="6" height="180" fill="#ccc"/>
+                            <path d="M-3,80 L3,80 L0,120 Z" fill="#ccc"/> <!-- 针尖 -->
+                            <path id="top-thread" d="M0,-100 L0,110" fill="none" stroke="var(--neon-pink)" stroke-width="3"/>
+                            <!-- 动态线圈 -->
+                            <path id="dynamic-loop" d="M0,110 C0,110 10,120 10,130 C10,140 0,135 0,135" 
+                                  fill="none" stroke="var(--neon-pink)" stroke-width="3" opacity="0"/>
+                        </g>
+
+                        <!-- 旋梭系统 -->
+                        <g transform="translate(200, 130)"> <!-- 位于布料下方 -->
+                            <circle cx="0" cy="0" r="35" fill="none" stroke="#333" stroke-width="2" stroke-dasharray="4,2"/>
+                            <g id="hook-sys">
+                                <path d="M0,-40 A40,40 0 1,1 -40,0" fill="none" stroke="var(--neon-cyan)" stroke-width="4"/>
+                                <polygon points="0,-40 10,-55 -10,-55" fill="var(--neon-cyan)"/> <!-- 钩尖 -->
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="control-group">
+                    <label>ROTATION ANGLE (0° - 360°)</label>
+                    <input type="range" id="cycle-slider" min="0" max="360" value="0">
+                </div>
+
+                <div class="readout-screen" id="synchro-readout">
+                    SYSTEM READY. MOVE SLIDER TO START.
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3><span style="color:var(--neon-yellow)">LAB B //</span> 张力逻辑 (Tension Logic)</h3>
+            <p>缝纫不仅是机械运动，更是力的平衡。面线和底线在布料中进行“拔河”。如果一方力气太大，结合点就会被拉出布料表面。</p>
+
+            <div class="lab-panel">
+                <div class="lab-header">
+                    <span>TENSION CROSS-SECTION VIEW</span>
+                    <span id="balance-status" style="color:var(--neon-green)">BALANCED</span>
+                </div>
+
+                <div class="svg-container" style="height: 200px;">
+                    <svg viewBox="0 0 400 120">
+                        <!-- 布料截面 -->
+                        <rect x="50" y="40" width="300" height="40" fill="#222" stroke="#444" rx="4"/>
+                        <line x1="50" y1="60" x2="350" y2="60" stroke="#333" stroke-dasharray="5,5"/> <!-- 中心线 -->
+
+                        <!-- 线迹路径 (动态) -->
+                        <!-- 面线(Pink) -->
+                        <path id="sim-top" d="M50,20 L150,20 L200,60 L250,20 L350,20" 
+                              fill="none" stroke="var(--neon-pink)" stroke-width="4" stroke-linejoin="round"/>
+                        <!-- 底线(Cyan) -->
+                        <path id="sim-bot" d="M50,100 L150,100 L200,60 L250,100 L350,100" 
+                              fill="none" stroke="var(--neon-cyan)" stroke-width="4" stroke-linejoin="round"/>
+                        
+                        <!-- 结合点 -->
+                        <circle id="knot" cx="200" cy="60" r="5" fill="#fff"/>
+                    </svg>
+                </div>
+
+                <div class="grid-2" style="gap: 20px;">
+                    <div>
+                        <label style="color:var(--neon-pink)">TOP TENSION (面线)</label>
+                        <input type="range" id="top-tension" min="0" max="100" value="50">
+                    </div>
+                    <div>
+                        <label style="color:var(--neon-cyan)">BOBBIN TENSION (底线)</label>
+                        <input type="range" id="bot-tension" min="0" max="100" value="50">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第三部分：故障诊断与知识扩展 -->
+        <div class="section-title">
+            PHASE 03: DIAGNOSTICS & PROTOCOLS
+            <span class="cn-title">线迹拓扑与故障排查</span>
+        </div>
+
+        <div class="card">
+            <h2>线迹拓扑学 (Topology)</h2>
+            <p>并非所有缝纫机都一样。理解不同线迹的物理结构有助于选择正确的工具。</p>
+            <table class="matrix-table">
+                <tr>
+                    <th width="20%">类型</th>
+                    <th width="40%">结构特征</th>
+                    <th>优缺点</th>
+                </tr>
+                <tr>
+                    <td><span class="highlight">锁式线迹 (Lockstitch)</span></td>
+                    <td>双线系统（面线+底线）。线在布料中间绞合锁定。</td>
+                    <td>
+                        <span style="color:var(--neon-green)">+ 极其牢固，不易散开</span><br>
+                        <span style="color:#666">- 弹性差，不适合弹力布</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="highlight">链式线迹 (Chainstitch)</span></td>
+                    <td>单线或多线系统。线自我互锁形成链条状。</td>
+                    <td>
+                        <span style="color:var(--neon-green)">+ 弹性好，生产速度极快</span><br>
+                        <span style="color:var(--neon-pink)">- 一处断裂，全线解体</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>常见故障诊断矩阵 (Diagnostics)</h2>
+            <p>当机器停止工作时，请参考此协议进行排查。</p>
+            <table class="matrix-table">
+                <tr>
+                    <th>故障现象</th>
+                    <th>物理原因</th>
+                    <th>解决方案</th>
+                </tr>
+                <tr>
+                    <td>底线成团（鸟巢）</td>
+                    <td>面线没有任何张力，导致全部被拉入机器底部。</td>
+                    <td>重新穿<strong>面线</strong>。确保穿线时<strong>压脚抬起</strong>，这样张力盘才会张开接纳线。</td>
+                </tr>
+                <tr>
+                    <td>跳针 (Skipped Stitches)</td>
+                    <td>旋梭没勾住线圈（相位偏差或针弯曲）。</td>
+                    <td>更换新针。检查机针是否装反。</td>
+                </tr>
+                <tr>
+                    <td>面线断裂</td>
+                    <td>张力过大，或针眼有毛刺割断线。</td>
+                    <td>调小面线张力。检查针眼是否光滑。</td>
+                </tr>
+            </table>
+        </div>
+
+        <footer style="text-align: center; padding: 60px; color: #666; font-family: var(--font-tech); font-size: 0.8rem;">
+            <p>SYSTEM STATUS: ONLINE // END OF TRANSMISSION</p>
+            <p>DESIGNED FOR EDUCATIONAL PURPOSE © 2025</p>
+        </footer>
+
+    </div>
+
+    <script>
+        /* ================== 交互逻辑脚本 ================== */
+        
+        // --- 1. 同步控制台逻辑 ---
+        const slider = document.getElementById('cycle-slider');
+        const readout = document.getElementById('synchro-readout');
+        const needleSys = document.getElementById('needle-sys');
+        const hookSys = document.getElementById('hook-sys');
+        const loopPath = document.getElementById('dynamic-loop');
+        const cycleVal = document.getElementById('cycle-val');
+
+        slider.addEventListener('input', (e) => {
+            const deg = parseInt(e.target.value);
+            cycleVal.innerText = deg + "°";
+
+            // 针的运动 (0度最高, 180度最低)
+            // 使用 sin 波形模拟
+            // 0 -> -1, 180 -> 1 (scale to distance)
+            const needlePos = Math.cos(deg * Math.PI / 180) * -50 + 50; // 0 to 100
+            needleSys.setAttribute('transform', `translate(200, ${needlePos})`);
+
+            // 旋梭运动 (2倍速, 加上相位差)
+            // 关键点：当针在180度(最低)回升到200度时，旋梭应该刚好勾住
+            const hookRot = (deg * 2) % 360;
+            hookSys.setAttribute('transform', `rotate(${hookRot})`);
+
+            // 状态机文字更新
+            if(deg >= 0 && deg < 100) {
+                readout.innerHTML = "PHASE: <span style='color:var(--neon-cyan)'>DOWNSTROKE (下行)</span><br>针杆向下刺入布料。";
+                loopPath.setAttribute('opacity', 0);
+            } else if (deg >= 100 && deg < 180) {
+                readout.innerHTML = "PHASE: <span style='color:var(--neon-pink)'>PENETRATION (穿刺)</span><br>即将到达下死点。";
+                loopPath.setAttribute('opacity', 0);
+            } else if (deg >= 180 && deg < 220) {
+                readout.innerHTML = "PHASE: <span style='color:var(--neon-yellow)'>LOOP FORMATION (成环)</span><br>关键时刻！针回升，线圈鼓起。";
+                loopPath.setAttribute('opacity', 1);
+                // 模拟线圈变大
+                let scale = (deg - 180) / 40; 
+                loopPath.setAttribute('d', `M0,110 C${15*scale},120 ${15*scale},130 0,135`);
+            } else if (deg >= 220 && deg < 300) {
+                readout.innerHTML = "PHASE: <span style='color:var(--neon-purple)'>HOOKING (勾取)</span><br>旋梭勾住线圈并旋转。";
+                loopPath.setAttribute('opacity', 0.5);
+            } else {
+                readout.innerHTML = "PHASE: <span style='color:var(--neon-cyan)'>TAKE-UP (收线)</span><br>挑线杆拉紧线迹，完成一个周期。";
+                loopPath.setAttribute('opacity', 0);
+            }
+        });
+
+        // --- 2. 张力模拟逻辑 ---
+        const topInput = document.getElementById('top-tension');
+        const botInput = document.getElementById('bot-tension');
+        const simTop = document.getElementById('sim-top');
+        const simBot = document.getElementById('sim-bot');
+        const knot = document.getElementById('knot');
+        const balStatus = document.getElementById('balance-status');
+
+        function updateTension() {
+            const t = parseInt(topInput.value);
+            const b = parseInt(botInput.value);
+            const diff = t - b;
+            
+            // 中心是 y=60. 
+            // t大 -> 向上拉 -> y减小
+            let y = 60 - (diff * 0.3);
+            if(y < 45) y = 45; // 限制在布料内
+            if(y > 75) y = 75;
+
+            // 更新路径
+            simTop.setAttribute('d', `M50,20 L150,20 L200,${y} L250,20 L350,20`);
+            simBot.setAttribute('d', `M50,100 L150,100 L200,${y} L250,100 L350,100`);
+            knot.setAttribute('cy', y);
+
+            // 状态判定
+            if(Math.abs(diff) < 15) {
+                balStatus.innerHTML = "BALANCED (完美平衡)";
+                balStatus.style.color = "var(--neon-green)";
+            } else if (diff > 0) {
+                balStatus.innerHTML = "TOP TOO TIGHT (面线过紧)";
+                balStatus.style.color = "var(--neon-pink)";
+            } else {
+                balStatus.innerHTML = "BOBBIN TOO TIGHT (底线过紧)";
+                balStatus.style.color = "var(--neon-cyan)";
+            }
+        }
+
+        topInput.addEventListener('input', updateTension);
+        botInput.addEventListener('input', updateTension);
+
+    </script>
+</body>
+</html>
